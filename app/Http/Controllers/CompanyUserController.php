@@ -12,6 +12,7 @@ class CompanyUserController extends Controller
 {
     public function index(Company $company)
     {
+        $this->authorize('viewAny', $company);
         $users = $company->users()->where('role_id', Role::CompanyOwner)->get();
 
         return view('companies.users.index', compact('company', 'users'));
@@ -24,6 +25,7 @@ class CompanyUserController extends Controller
 
     public function store(StoreUserRequest $request, Company $company)
     {
+        $this->authorize('create', $company);
         $company->users()->create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
@@ -41,6 +43,7 @@ class CompanyUserController extends Controller
 
     public function update(UpdateUserRequest $request, Company $company, User $user)
     {
+        $this->authorize('update', $company);
         $user->update($request->validated());
 
         return to_route('companies.users.index', $company);
@@ -48,6 +51,7 @@ class CompanyUserController extends Controller
 
     public function destroy(Company $company, User $user)
     {
+        $this->authorize('delete', $company);
         $user->delete();
 
         return to_route('companies.users.index', $company);

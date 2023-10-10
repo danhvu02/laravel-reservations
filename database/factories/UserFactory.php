@@ -44,4 +44,18 @@ class UserFactory extends Factory
             'role_id' => Role::Administrator,
         ]);
     }
+
+    public function companyOwner(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role_id' => Role::CompanyOwner,
+        ]);
+    }
+
+    public function guide(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role_id' => Role::Guide,
+        ]);
+    }
 }
